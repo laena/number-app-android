@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Guess the Next Number!</title>
+
+  <!-- STYLE -->
+  <link rel="stylesheet" href="css/basic.min.css" />
+  <link rel="stylesheet" href="css/client.custom.css" />
+  <link rel="stylesheet" href="css/themes/terminal.min.css" />
+  <link rel="stylesheet" href="css/jquery.mobile.icons.min.css" />
+  <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.0.min.css" />
+  <!-- SCRIPTS -->
+  <script type="application/javascript" language="javascript" src="thirdparty/jquery-1.10.2.min.js"></script>
+  <script type="application/javascript" language="javascript" src="thirdparty/jquery.mobile-1.4.1.min.js"></script>
+  <script type="application/javascript" language="javascript" src="numbers.js"></script>
+  <script type="application/javascript" language="javascript" src="util.js"></script>
+</head>
+
+<body onload="initializeApp()">
+    <!-- 
+      startPage
+    -->
+    <div data-role="page" id="startPage">
+      <div data-role="header">
+        <h2>numb3r 6u3553r</h2>
+      </div>
+      <div role="main" class="ui-content">
+        <p><a href="#multipleChoicePage" onclick="showInMode('kindergarten')" class="ui-btn ui-shadow ui-corner-all" data-transition="flip">Kindergarten</a></p>
+        <p><a href="#multipleChoicePage" onclick="showInMode('easy')" class="ui-btn ui-shadow ui-corner-all" data-transition="flip">Easy</a></p>
+        <p><a href="#blankPage" onclick="showInMode('hard')" class="ui-btn ui-shadow ui-corner-all" data-transition="flip">Hard</a></p>
+      </div>
+    </div>
+    
+    <!-- 
+      quizPageMultipleChoice 
+    -->
+    <div data-role="page" id="multipleChoicePage">
+      <div data-role="header">
+        <h2>wh475 n3x7?</h2>
+        <div class="ui-btn-right">
+          <a href="#startPage" data-role="button" data-icon="home" data-iconpos="notext" data-transition="flip" onclick="reset()"></a>
+        </div>
+      </div>
+      <div role="main" class="ui-content">
+        <h1 id="questionTextLabel">???</h1> 
+        <button onclick="submitAnswerByIndex(0)" id="answerButton0">:)</button>
+        <button onclick="submitAnswerByIndex(1)" id="answerButton1">:/</button>
+        <button onclick="submitAnswerByIndex(2)" id="answerButton2">:O</button>
+        <button onclick="submitAnswerByIndex(3)" id="answerButton3">:|</button>
+      </div>
+    </div>
+
+    <!-- 
+      quizPageBlank 
+    -->
+    <div data-role="page" id="blankPage">
+      <div data-role="header">
+        <h2>wh475 n3x7?</h2>
+        <div class="ui-btn-right">
+          <a href="#startPage" data-role="button" data-icon="home" data-iconpos="notext" data-transition="flip" onclick="reset()"></a>
+        </div>
+      </div>
+      <div role="main" class="ui-content">
+        <h1 id="questionTextLabel_hard">???</h1> 
+        <input type="number" id="numberInput" pattern="[0-9]*"></input>
+        <button onclick="submitAnswerByValue($('#' + 'numberInput').val())" id="nextQuestionButton">Submit!</button>
+      </div>
+    </div>
+
+    <!-- 
+      resultPage
+    -->
+    <div data-role="page" id="resultPage">
+      <div data-role="header">
+        <h2>wh475 n3x7?</h2>
+        <div class="ui-btn-right">
+          <a href="#startPage" data-role="button" data-icon="home" data-iconpos="notext" data-transition="flip" onclick="reset()"></a>
+        </div> 
+      </div>
+      <div role="main" class="ui-content">
+        <h1 id="congratsLabel"></h1>
+        <h2 id="scoreLabel"></h2>
+      </div>
+    </div>
+
+  </body>
+  </html>
