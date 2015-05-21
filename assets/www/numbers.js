@@ -11,7 +11,7 @@ var correctValue = 0;
 
 var score = 0;
 
-var questionTypes = ["fibonacci", "randomLinear", "randomStep", "randomQuadratic", "randomSequence"];
+var questionTypes = ["fibonacci", "randomLinear", "randomStep", "randomQuadratic", "geometric"];
 
 function initializeApp() {
 	// TODO
@@ -53,11 +53,14 @@ function generateQuestion() {
 				setElementText("answerButton"+i, correctValue);
 			else {
 				var randomResult = correctValue;
+				var deviation = correctValue * 2;
+				if (deviation == 0)
+					deviation = 5;
 				while (randomResult == correctValue){
 					if (correctValue < 0)
-						randomResult = randomRange(5*correctValue, -correctValue);
+						randomResult = normalRandom(correctValue, deviation);
 					else
-						randomResult = randomRange(-correctValue, 5*correctValue);
+						randomResult = normalRandom(correctValue, deviation);
 				}
 				setElementText("answerButton"+i, randomResult);
 			}
@@ -111,11 +114,11 @@ function showResultScreen() {
 }
 
 function Question(type) {
-	this.a = randomRange(-10,10);
+	do { this.a = randomRange(-10,10); } while (this.a == 1);
 	this.b = randomRange(-10,10);
 	this.c = randomRange(-10,10);
 
-	this.d = randomRange(1,10);
+	this.d = randomRange(0,3);
 
     if (type == "randomLinear")
     	this.generate = function(n) { return (n*this.a + this.b); };
@@ -123,14 +126,18 @@ function Question(type) {
     	this.generate = function(n) { return (n*n*this.a + n*this.b + this.c); };
     else if (type == "randomStep")
     	this.generate = function(n) { 
-    		if (n%2 == 0)
+    		if (n % this.d == 0)
     			return (n + this.a);
     		else
-    			return (n - this.a); 
+    			return (n - this.a);
+    	};
+    else if (type == "geometric")
+    	this.generate = function(n) {
+    		return geometric(n, this.a, this.b);
     	};
     else if (type == "fibonacci")
     	this.generate = function(n) {
-    		return fibonacci(n + this.d);
+    		return fibonacci(n, this.d);
     	};
     else if (type == "randomSequence")
     	this.generate = function(n) {
@@ -150,9 +157,14 @@ Question.prototype.numberAt = function(n) {
     return this.generate(n);
 }
 
-function fibonacci(n) {
+function geometric(n, scale, ratio) {
+	// an = ar^(n – 1)	
+	return scale * (ratio^n);
+}
+
+function fibonacci(n, offset) {
 	if (n == 0 || n == 1) return n;
-    else return fibonacci(n-1) + fibonacci(n-2);
+    else return fibonacci(n-1, offset) + fibonacci(n-2, offset) + offset;
 }
 
 function sequence(n, a, b) {
